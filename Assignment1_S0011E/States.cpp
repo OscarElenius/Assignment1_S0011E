@@ -1,5 +1,7 @@
 #include "States.h"
 
+// BALANCING IS NOT FINAL
+
 void State_Idle::performState(Character* character) {
 	character->sTimer(1);
 
@@ -24,7 +26,6 @@ void State_Idle::performState(Character* character) {
 void State_Sleep::performState(Character* character) {
 	std::cout << "Character " << character->gID() << ": is sleeping." << std::endl;
 	if (character->timer % 8 == 0) {
-		// awake 2 less hours then written here. 18->16
 		character->sSleep(character->gSleep() + 18);
 		character->changeState(new State_Idle);
 	}

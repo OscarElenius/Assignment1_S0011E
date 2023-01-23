@@ -2,6 +2,7 @@
 #include <set>
 
 class Character;
+class Entity;
 
 struct Telegram {
 	int sender;
@@ -13,13 +14,13 @@ struct Telegram {
     // type-casted to the correct type to be used directly.
 
 	//might need to change constuctor in future
-	Telegram(double time ,int sender, int receiver, int msg, void* extraInfo);
+	Telegram(double time ,int sender, int receiver, int msg, void* extraInfo){};
 };
 
 class MessageDispatcher {
 private:
 	std::set<Telegram> priorityQueue;
-	void discharge(Character* receiver, const Telegram& msg);
+	void discharge(Entity* receiver, const Telegram& msg);
 
 	// Singleton
 	MessageDispatcher() {};

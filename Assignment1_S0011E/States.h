@@ -3,7 +3,7 @@
 #include <iostream>
 class Character;
 
-
+// This could use a template
 class State {
 public:
 	virtual void performState(Character* character) = 0;

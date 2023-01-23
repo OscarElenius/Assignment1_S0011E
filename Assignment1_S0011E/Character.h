@@ -1,15 +1,42 @@
 #pragma once
 #include "States.h"
+#include <map>
+
 class State;
 
-class Character {
+class Entity {
 private:
-	int ID;
+	int id;
 	static int nextID;
+	void sID(int value);
 
-	// i imagine sleep, thirst, fed == 0 means dead.
-	// money == 0 means cant eat/drink/hangout
-	// fun == 0 means rope  >->-D:
+public:
+	Entity(int id) { sID(id); }
+	int ID() const { return id; }
+	virtual ~Entity() = default;
+	virtual void Update() = 0;
+};
+
+class EntityManager {
+private:
+	typedef std::map<int, Entity*> entityMap;
+	entityMap entitymap;
+
+	EntityManager(){};
+	EntityManager(const EntityManager&);
+	EntityManager& operator=(const EntityManager&);
+public:
+	static EntityManager* Instance();
+	void registerEntity(Entity* newEntity);
+	Entity* getEntityFromID(int id) const;
+	void removeEntity(Entity* entity);
+	
+};
+
+class Character : public Entity {
+private:
+	//int ID;
+	//static int nextID;
 
 	int money;
 	int sleep;
@@ -20,7 +47,7 @@ private:
 	State* currentState;
 public:
 	int timer;
-	Character();
+	Character(int id);
 	// ------- Getters --------
 	int gID();
 	int gMoney();
@@ -30,7 +57,7 @@ public:
 	int gFun();
 	int gTimer();
 	// ------- Setters --------
-	void sID(int newID);
+	//void sID(int newID);
 	void sMoney(int newMoney);
 	void sSleep(int newSleep);
 	void sThirst(int newThirst);
@@ -41,4 +68,6 @@ public:
 
 	void Update();
 	void changeState(State* newState);
+
+	~Character(){}
 };
