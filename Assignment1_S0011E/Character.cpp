@@ -9,13 +9,26 @@ EntityManager* EntityManager::Instance() {
 	static EntityManager instance;
 	return &instance;
 }
+/*
+EntityManager& EntityManager::operator=(const EntityManager& v) {
+	return ;
+}
+*/
 Entity* EntityManager::getEntityFromID(int id) const {
-	// do this later...
-	return 0;
+	// Uses Map to get value from key.
+	entityMap::const_iterator entity = entitymap.find(id);
+	return entity->second;
+}
+void EntityManager::registerEntity(Entity* newEntity) {
+	entitymap.insert(std::make_pair(newEntity->ID(), newEntity));
+	std::cout << "Registred a new Entity." << std::endl;
+}
+void EntityManager::removeEntity(Entity* entity) {
+	entitymap.erase(entitymap.find(entity->ID()));
 }
 
 Character::Character(int id): 
-	Entity(id), money(10), sleep(24), thirst(15), hunger(15), fun(50), timer(1), currentState(new State_Sleep) {}
+	Entity(id), money(10), sleep(24), thirst(48), hunger(48), fun(30), timer(1), currentState(new State_Sleep) {}
 // ------- Getters --------
 int Character::gID() { return 0; }
 int Character::gMoney() { return money; }

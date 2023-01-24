@@ -19,16 +19,13 @@ void MessageDispatcher::dispatchMessage(double delay, int sender, int receiver, 
 
 	Telegram telegram = Telegram(0, sender, receiver, msg, extraInfo);
 	
-	if (delay <= 0) { discharge(pReceiver, telegram); }
+	if (delay <= 0.0) { discharge(pReceiver, telegram); }
 	else {
-		// Calculates when time when telegram should be dispatched
-
-		// Converts current time seconds to double
+		// Calculates when time when telegram should be dispatched, first row converts current time seconds to double
 		double currentTime = static_cast<double>(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
 		telegram.dispatchTime = currentTime + delay;
 
 		priorityQueue.insert(telegram);
-
 	}
 }
 
@@ -38,7 +35,7 @@ void MessageDispatcher::dispatchDelayedMessages() {
 	double currentTime = static_cast<double>(std::chrono::duration_cast<std::chrono::seconds>(std::chrono::system_clock::now().time_since_epoch()).count());
 
 	// Checks top priority and if the telegram should be sent, then does actions accordingly.
-	while ((priorityQueue.begin()->dispatchTime > currentTime) && (priorityQueue.begin()->dispatchTime > 0)) {
+	while ((priorityQueue.begin()->dispatchTime < currentTime) && (priorityQueue.begin()->dispatchTime > 0)) {
 		Telegram telegram = *priorityQueue.begin();
 		Entity* pReceiver = EntityManager::Instance()->getEntityFromID(telegram.receiver);
 		discharge(pReceiver, telegram);

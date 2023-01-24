@@ -10,18 +10,18 @@
 int main() {
 	int hour = 0;
 
-	Character c1 = Character(1);
+	Character* c1 = new Character(1);
 	Character c2 = Character(2);
 	Character c3 = Character(3);
+	EntityManager* eM = EntityManager::Instance();
 
 	while (true) {
 		std::cout << std::endl << "Time: " << hour % 24 << ":00" << std::endl;
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
-		c1.Update();
-		//c2.Update();
-		//c3.Update();
+		c1->Update();
+		// eM->registerEntity(c1);        Character --> Entity* ?? 
 
-		//MessageDispatcher::Instance()->dispatchDelayedMessages();
+		//MessageDispatcher::Instance()->dispatchDelayedMessages();   >:(
 
 		hour++;
 		if (_kbhit())break;
@@ -30,6 +30,7 @@ int main() {
 
 // TODO: 
 // 
+// handleMsg p.99?
 // EntityManager functions
 // ID between entities
 // send messages between characters (halfway done)!

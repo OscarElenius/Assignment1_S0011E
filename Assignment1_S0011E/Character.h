@@ -3,6 +3,7 @@
 #include <map>
 
 class State;
+struct Telegram;
 
 class Entity {
 private:
@@ -15,6 +16,7 @@ public:
 	int ID() const { return id; }
 	virtual ~Entity() = default;
 	virtual void Update() = 0;
+	//virtual bool handleMsg(const Telegram &msg) = 0;
 };
 
 class EntityManager {
@@ -23,6 +25,7 @@ private:
 	entityMap entitymap;
 
 	EntityManager(){};
+	// this constructor and operator needs to be fixed
 	EntityManager(const EntityManager&);
 	EntityManager& operator=(const EntityManager&);
 public:
@@ -35,8 +38,6 @@ public:
 
 class Character : public Entity {
 private:
-	//int ID;
-	//static int nextID;
 
 	int money;
 	int sleep;
