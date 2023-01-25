@@ -13,18 +13,18 @@ struct Telegram {
 	// the extra info is a general pointer and needs to be 
     // type-casted to the correct type to be used directly.
 
-	//might need to change constuctor in future
 	Telegram(double time ,int sender, int receiver, int msg, void* extraInfo): dispatchTime(time), sender(sender), receiver(receiver), msg(msg), extraInfo(extraInfo) {};
 };
 
 class MessageDispatcher {
 private:
 	std::set<Telegram> priorityQueue;
-	void discharge(Entity* receiver, const Telegram& msg);
+	bool discharge(Entity* receiver, const Telegram& msg);
+
 	// Singleton
 	MessageDispatcher() {};
 public:
 	static MessageDispatcher* Instance();
 	void dispatchDelayedMessages();
-	void dispatchMessage(double delay, int sender, int receiver, int msg, void* extraInfo);
+	bool dispatchMessage(double delay, int sender, int receiver, int msg, void* extraInfo);
 };

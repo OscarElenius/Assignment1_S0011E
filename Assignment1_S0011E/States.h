@@ -3,11 +3,11 @@
 #include <iostream>
 class Character;
 
-// This could use a template
+// This could use a template, also missing enter/exit for more controlled state-transition.
+
 class State {
 public:
 	virtual void performState(Character* character) = 0;
-	//virtual bool onMsg(Character* character, const Telegram&) = 0;
 };
 
 class State_Idle : public State {

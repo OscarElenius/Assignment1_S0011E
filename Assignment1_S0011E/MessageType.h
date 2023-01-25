@@ -1,5 +1,7 @@
 #pragma once
 
-enum messageType {
+// if improved would add more here
 
+enum messageType {
+	msgPartyRequest,
 };

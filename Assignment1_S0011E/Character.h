@@ -9,14 +9,13 @@ class Entity {
 private:
 	int id;
 	static int nextID;
-	void sID(int value);
-
+	void sID();
 public:
-	Entity(int id) { sID(id); }
+	Entity() { sID(); }
 	int ID() const { return id; }
 	virtual ~Entity() = default;
 	virtual void Update() = 0;
-	//virtual bool handleMsg(const Telegram &msg) = 0;
+	virtual bool handleMsg(const Telegram &msg) = 0;
 };
 
 class EntityManager {
@@ -25,9 +24,7 @@ private:
 	entityMap entitymap;
 
 	EntityManager(){};
-	// this constructor and operator needs to be fixed
-	EntityManager(const EntityManager&);
-	EntityManager& operator=(const EntityManager&);
+	EntityManager& operator=(EntityManager&);
 public:
 	static EntityManager* Instance();
 	void registerEntity(Entity* newEntity);
@@ -40,7 +37,10 @@ class Character : public Entity {
 private:
 
 	int money;
+	int salary;
+	int workHours;
 	int sleep;
+	int sleepEachDay;
 	int thirst;
 	int hunger;
 	int fun;
@@ -48,17 +48,18 @@ private:
 	State* currentState;
 public:
 	int timer;
-	Character(int id);
+	Character(int sleepDay, int salaryHour, int hoursOfWork);
 	// ------- Getters --------
-	int gID();
 	int gMoney();
+	int gSalary();
+	int gWorkHours();
 	int gSleep();
+	int gSleepEachDay();
 	int gThirst();
 	int gHunger();
 	int gFun();
 	int gTimer();
 	// ------- Setters --------
-	//void sID(int newID);
 	void sMoney(int newMoney);
 	void sSleep(int newSleep);
 	void sThirst(int newThirst);
@@ -66,7 +67,7 @@ public:
 	void sFun(int newFun);
 	void sTimer(int newTimer);
 
-
+	bool handleMsg(const Telegram &msg);
 	void Update();
 	void changeState(State* newState);
 
